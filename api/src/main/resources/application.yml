@@ -1,0 +1,8 @@
+spring:
+  application:
+      name: worldle-api
+
+bot:
+  auth:
+    username: ${BOT_USERNAME:bot}
+    password: ${BOT_PASSWORD:bot}
