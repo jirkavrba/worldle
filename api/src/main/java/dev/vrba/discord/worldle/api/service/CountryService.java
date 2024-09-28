@@ -5,6 +5,7 @@ import dev.vrba.discord.worldle.api.model.Country;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CountryService {
 
@@ -12,5 +13,5 @@ public interface CountryService {
     List<Country> getAvailableCountries();
 
     @NonNull
-    City getRandomCity(@NonNull Country country);
+    Optional<City> getRandomCity(@NonNull Country country);
 }

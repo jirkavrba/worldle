@@ -2,6 +2,8 @@ package dev.vrba.discord.worldle.api.service.impl;
 
 import dev.vrba.discord.worldle.api.model.Challenge;
 import dev.vrba.discord.worldle.api.model.ChallengeOption;
+import dev.vrba.discord.worldle.api.model.City;
+import dev.vrba.discord.worldle.api.model.Country;
 import dev.vrba.discord.worldle.api.repository.RedisChallengeRepository;
 import dev.vrba.discord.worldle.api.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +29,22 @@ public class RedisChallengeService implements ChallengeService {
         return repository.save(
             new Challenge(
                 date,
-                "TODO: pick a random city",
+                new City(
+                    "TODO: City name",
+                    new Country(
+                        "TODO: Country name",
+                        "TODO: Country code",
+                        "TODO: Country flag"
+                    )
+                ),
                 "TODO: Fetch and upload an image and get back a public URL",
                 List.of(
                     new ChallengeOption(
-                        "TODO: Pick 16 random countries",
-                        "TODO: Convert country codes to flags via unicode magic",
+                        new Country(
+                            "TODO: Country name",
+                            "TODO: Country code",
+                            "TODO: Country flag"
+                        ),
                         true
                     )
                 )
