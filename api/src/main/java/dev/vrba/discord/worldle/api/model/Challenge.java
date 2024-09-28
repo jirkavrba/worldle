@@ -10,7 +10,7 @@ import java.util.List;
 @RedisHash("challenges")
 public record Challenge(
     @Id @NonNull LocalDate date,
-    @NonNull String city,
+    @NonNull City city,
     @NonNull String imageUrl,
     @NonNull List<ChallengeOption> options
 ) {
