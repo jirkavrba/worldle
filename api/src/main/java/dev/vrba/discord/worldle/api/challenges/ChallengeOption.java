@@ -1,4 +1,4 @@
-package dev.vrba.discord.worldle.api.challenges.domain;
+package dev.vrba.discord.worldle.api.challenges;
 
 import org.springframework.lang.NonNull;
 

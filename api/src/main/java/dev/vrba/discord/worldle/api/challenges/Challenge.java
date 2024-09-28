@@ -1,4 +1,4 @@
-package dev.vrba.discord.worldle.api.challenges.domain;
+package dev.vrba.discord.worldle.api.challenges;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;

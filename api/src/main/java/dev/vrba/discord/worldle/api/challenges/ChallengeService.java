@@ -1,6 +1,5 @@
 package dev.vrba.discord.worldle.api.challenges;
 
-import dev.vrba.discord.worldle.api.challenges.domain.Challenge;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
