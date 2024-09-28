@@ -1,7 +1,8 @@
-package dev.vrba.discord.worldle.api.integration.redis;
+package dev.vrba.discord.worldle.api.service.impl;
 
-import dev.vrba.discord.worldle.api.domain.Challenge;
-import dev.vrba.discord.worldle.api.domain.ChallengeOption;
+import dev.vrba.discord.worldle.api.model.Challenge;
+import dev.vrba.discord.worldle.api.model.ChallengeOption;
+import dev.vrba.discord.worldle.api.repository.RedisChallengeRepository;
 import dev.vrba.discord.worldle.api.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;

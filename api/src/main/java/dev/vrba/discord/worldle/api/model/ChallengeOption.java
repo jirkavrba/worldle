@@ -1,4 +1,4 @@
-package dev.vrba.discord.worldle.api.domain;
+package dev.vrba.discord.worldle.api.model;
 
 import org.springframework.lang.NonNull;
 

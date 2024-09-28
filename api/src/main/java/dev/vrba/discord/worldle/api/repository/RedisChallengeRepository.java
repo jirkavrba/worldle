@@ -1,6 +1,6 @@
-package dev.vrba.discord.worldle.api.integration.redis;
+package dev.vrba.discord.worldle.api.repository;
 
-import dev.vrba.discord.worldle.api.domain.Challenge;
+import dev.vrba.discord.worldle.api.model.Challenge;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
