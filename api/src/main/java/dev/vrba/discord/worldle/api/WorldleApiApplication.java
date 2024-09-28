@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WorldleApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WorldleApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WorldleApiApplication.class, args);
+    }
 
 }
