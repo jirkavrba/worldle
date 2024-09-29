@@ -53,7 +53,7 @@ public class ResourceCountryService implements CountryService {
     @NonNull
     private Map<String, Country> loadAndParseCountries(final @NonNull ResourceLoader loader) {
         try {
-            return Objects.requireNonNull(loader).getResource("countries.csv")
+            return Objects.requireNonNull(loader).getResource("classpath:/countries.csv")
                 .getContentAsString(Charset.defaultCharset())
                 .lines()
                 .map(line -> {
@@ -65,7 +65,7 @@ public class ResourceCountryService implements CountryService {
 
                     return new Country(name, code, flag);
                 })
-                .collect(Collectors.toMap(
+                .collect(Collectors.toUnmodifiableMap(
                     Country::code,
                     Function.identity()
                 ));
@@ -76,7 +76,25 @@ public class ResourceCountryService implements CountryService {
 
     @NonNull
     private Map<Country, List<City>> loadAndParseCities(final @NonNull ResourceLoader loader) {
-        return Map.of();
+        try {
+            return Objects.requireNonNull(loader).getResource("classpath:/cities.csv")
+                .getContentAsString(Charset.defaultCharset())
+                .lines()
+                .map(line -> {
+                    // Liberec,CZ
+                    final String[] parts = line.trim().split(",");
+                    final String name = parts[0];
+                    final String countryCode = parts[1];
+                    final Optional<Country> country = Optional.ofNullable(countries.get(countryCode));
+
+                    return country.map(it -> new City(name, it));
+                })
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.groupingBy(City::country));
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     // CZ -> 🇨🇿
