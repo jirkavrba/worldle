@@ -12,9 +12,16 @@ public interface ChallengeService {
     Challenge createChallenge(@NonNull LocalDate date);
 
     @NonNull
+    Challenge createChallengeForToday();
+
+    @NonNull
     Optional<Challenge> findChallengeByDate(@NonNull LocalDate date);
 
     @NonNull
     Optional<Challenge> findChallengeForToday();
+
+    default Challenge findOrCreateChallengeForToday() {
+        return findChallengeForToday().orElseGet(this::createChallengeForToday);
+    }
 
 }

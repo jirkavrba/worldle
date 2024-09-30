@@ -25,6 +25,12 @@ public class RedisChallengeService implements ChallengeService {
 
     @NonNull
     @Override
+    public Challenge createChallengeForToday() {
+        return createChallenge(LocalDate.now());
+    }
+
+    @NonNull
+    @Override
     public Challenge createChallenge(final @NonNull LocalDate date) {
         return repository.save(
             new Challenge(

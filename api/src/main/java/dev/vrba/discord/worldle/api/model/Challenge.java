@@ -9,10 +9,11 @@ import java.util.List;
 
 @RedisHash("challenges")
 public record Challenge(
-    @Id @NonNull LocalDate date,
-    @NonNull City city,
-    @NonNull String imageUrl,
-    @NonNull List<ChallengeOption> options
+        @Id
+        @NonNull LocalDate date,
+        @NonNull City city,
+        @NonNull String imageUrl,
+        @NonNull List<ChallengeOption> options
 ) {
 }
 
