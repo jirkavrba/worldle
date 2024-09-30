@@ -6,3 +6,8 @@ bot:
   auth:
     username: ${BOT_USERNAME:bot}
     password: ${BOT_PASSWORD:bot}
+
+integration:
+  uploadcare:
+    public-key: ${UPLOADCARE_PUBLIC_KEY}
+    secret-key: ${UPLOADCARE_SECRET_KEY}

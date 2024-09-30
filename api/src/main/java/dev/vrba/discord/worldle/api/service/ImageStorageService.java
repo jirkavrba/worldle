@@ -2,9 +2,15 @@ package dev.vrba.discord.worldle.api.service;
 
 import org.springframework.lang.NonNull;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 public interface ImageStorageService {
 
     @NonNull
-    String uploadImage(@NonNull byte[] data);
+    Optional<String> uploadChallengeImage(
+            @NonNull byte[] imageData,
+            @NonNull LocalDate challengeDate
+    );
 
 }
