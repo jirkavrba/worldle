@@ -27,7 +27,7 @@ public class SecurityConfiguration {
             .logout(AbstractHttpConfigurer::disable)
             .httpBasic(it -> it.realmName("Worldle"))
             .authorizeHttpRequests(requests -> {
-                requests.requestMatchers("/api/bot/**").hasRole("BOT");
+                requests.requestMatchers("/api/v1/bot/**").hasRole("BOT");
                 requests.anyRequest().permitAll();
             })
             .build();
