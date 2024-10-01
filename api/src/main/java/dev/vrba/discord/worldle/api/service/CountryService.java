@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CountryService {
 
     @NonNull
-    List<Country> getAvailableCountries();
+    List<Country> getShuffledCountries();
 
     @NonNull
     Optional<City> getRandomCity(@NonNull Country country);

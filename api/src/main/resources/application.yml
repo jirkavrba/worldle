@@ -1,6 +1,10 @@
 spring:
   application:
-      name: worldle-api
+    name: worldle-api
+
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
 
 bot:
   auth:
@@ -8,6 +12,9 @@ bot:
     password: ${BOT_PASSWORD:bot}
 
 integration:
+  google-maps:
+    api-key: ${GOOGLE_MAPS_API_KEY}
+
   uploadcare:
     public-key: ${UPLOADCARE_PUBLIC_KEY}
     secret-key: ${UPLOADCARE_SECRET_KEY}

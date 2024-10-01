@@ -30,45 +30,47 @@ public class ResourceCountryService implements CountryService {
 
     @NonNull
     @Override
-    public List<Country> getAvailableCountries() {
-        return countries.values()
-            .stream()
-            .toList();
+    public List<Country> getShuffledCountries() {
+        final List<Country> list = new ArrayList<>(countries.values().stream().toList());
+
+        Collections.shuffle(list);
+
+        return list;
     }
 
     @NonNull
     @Override
     public Optional<City> getRandomCity(@NonNull Country country) {
         return Optional.of(cities.get(country))
-            .filter(collection -> !collection.isEmpty())
-            .map(collection -> collection.stream().toList())
-            .map(cities -> {
-                final var copy = new ArrayList<>(List.copyOf(cities));
+                .filter(collection -> !collection.isEmpty())
+                .map(collection -> collection.stream().toList())
+                .map(cities -> {
+                    final var copy = new ArrayList<>(List.copyOf(cities));
 
-                Collections.shuffle(copy);
-                return copy.getFirst();
-            });
+                    Collections.shuffle(copy);
+                    return copy.getFirst();
+                });
     }
 
     @NonNull
     private Map<String, Country> loadAndParseCountries(final @NonNull ResourceLoader loader) {
         try {
             return Objects.requireNonNull(loader).getResource("classpath:/countries.csv")
-                .getContentAsString(Charset.defaultCharset())
-                .lines()
-                .map(line -> {
-                    // CZ,Czech Republic
-                    final String[] parts = line.trim().split(",");
-                    final String code = parts[0];
-                    final String name = parts[1];
-                    final String flag = flagEmoji(code);
+                    .getContentAsString(Charset.defaultCharset())
+                    .lines()
+                    .map(line -> {
+                        // CZ,Czech Republic
+                        final String[] parts = line.trim().split(",");
+                        final String code = parts[0];
+                        final String name = parts[1];
+                        final String flag = flagEmoji(code);
 
-                    return new Country(name, code, flag);
-                })
-                .collect(Collectors.toUnmodifiableMap(
-                    Country::code,
-                    Function.identity()
-                ));
+                        return new Country(name, code, flag);
+                    })
+                    .collect(Collectors.toUnmodifiableMap(
+                            Country::code,
+                            Function.identity()
+                    ));
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -78,20 +80,20 @@ public class ResourceCountryService implements CountryService {
     private Map<Country, List<City>> loadAndParseCities(final @NonNull ResourceLoader loader) {
         try {
             return Objects.requireNonNull(loader).getResource("classpath:/cities.csv")
-                .getContentAsString(Charset.defaultCharset())
-                .lines()
-                .map(line -> {
-                    // Liberec,CZ
-                    final String[] parts = line.trim().split(",");
-                    final String name = parts[0];
-                    final String countryCode = parts[1];
-                    final Optional<Country> country = Optional.ofNullable(countries.get(countryCode));
+                    .getContentAsString(Charset.defaultCharset())
+                    .lines()
+                    .map(line -> {
+                        // Liberec,CZ
+                        final String[] parts = line.trim().split(",");
+                        final String name = parts[0];
+                        final String countryCode = parts[1];
+                        final Optional<Country> country = Optional.ofNullable(countries.get(countryCode));
 
-                    return country.map(it -> new City(name, it));
-                })
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.groupingBy(City::country));
+                        return country.map(it -> new City(name, it));
+                    })
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.groupingBy(City::country));
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }

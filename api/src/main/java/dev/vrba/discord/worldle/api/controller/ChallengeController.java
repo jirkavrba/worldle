@@ -20,7 +20,7 @@ public class ChallengeController {
     @Secured("ROLE_BOT")
     @GetMapping("/today")
     public ResponseEntity<?> getChallengeForToday() {
-        return ResponseEntity.ok(service.findOrCreateChallengeForToday().city());
+        return ResponseEntity.ok(service.findOrCreateChallengeForToday());
     }
 
 }
