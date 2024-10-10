@@ -89,8 +89,6 @@ public class GooglePlacesImageLookupService implements ImageLookupService {
     }
 
     private Optional<byte[]> getImageDataByPhotoReference(@NonNull String reference) {
-        System.out.println(reference);
-
         final String redirect = client.get()
                 .uri(builder ->
                         builder
