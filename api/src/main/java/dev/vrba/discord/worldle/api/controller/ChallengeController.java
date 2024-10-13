@@ -22,10 +22,13 @@ public class ChallengeController {
     @NonNull
     private final ChallengeService service;
 
+    @NonNull
+    private final ChallengeMapper mapper;
+
     @GetMapping("/today")
     public ResponseEntity<?> getChallengeForToday() {
         final Challenge challenge = service.findOrCreateChallengeForToday();
-        final ChallengeDto response = ChallengeMapper.INSTANCE.challengeToChallengeDto(challenge);
+        final ChallengeDto response = mapper.challengeToChallengeDto(challenge);
 
         return ResponseEntity.ok(response);
     }
@@ -33,7 +36,7 @@ public class ChallengeController {
     @GetMapping("/date/{date}")
     public ResponseEntity<?> getChallengeForDate(@NonNull @PathVariable("date") LocalDate date) {
         final Challenge challenge = service.findOrCreateChallengeByDate(date);
-        final ChallengeDto response = ChallengeMapper.INSTANCE.challengeToChallengeDto(challenge);
+        final ChallengeDto response = mapper.challengeToChallengeDto(challenge);
 
         return ResponseEntity.ok(response);
     }

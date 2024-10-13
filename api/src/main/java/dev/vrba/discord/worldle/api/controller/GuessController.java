@@ -22,10 +22,13 @@ public class GuessController {
     @NonNull
     private final GuessService service;
 
+    @NonNull
+    private final GuessMapper mapper;
+
     @GetMapping("/user/{user:^[0-9]+$}/today")
     public ResponseEntity<GuessResponseDto> getUserGuessForToday(@PathVariable("user") String user) {
         final GuessResponseDto response = service.findGuessForToday(user)
-                .map(GuessMapper.INSTANCE::guessToGuessDto)
+                .map(mapper::guessToGuessDto)
                 .map(guess -> new GuessResponseDto(true, guess))
                 .orElse(new GuessResponseDto(false, null));
 
@@ -38,7 +41,7 @@ public class GuessController {
             @PathVariable("date") LocalDate date
     ) {
         final GuessResponseDto response = service.findGuessForDate(date, user)
-                .map(GuessMapper.INSTANCE::guessToGuessDto)
+                .map(mapper::guessToGuessDto)
                 .map(guess -> new GuessResponseDto(true, guess))
                 .orElse(new GuessResponseDto(false, null));
 
@@ -50,7 +53,7 @@ public class GuessController {
             @RequestBody GuessSubmitRequestDto request
     ) {
         final Guess guess = service.recordGuessForToday(request.user(), request.count());
-        final GuessDto response = GuessMapper.INSTANCE.guessToGuessDto(guess);
+        final GuessDto response = mapper.guessToGuessDto(guess);
 
         return ResponseEntity.ok(response);
     }
