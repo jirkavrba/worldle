@@ -1,8 +1,15 @@
-export function add(a: number, b: number): number {
-  return a + b;
-}
+import {loadConfiguration} from "./env.ts";
+import {Client, GatewayIntentBits} from "npm:discord.js";
+import {registerApplicationCommands} from "./commands.ts";
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
+  const config = loadConfiguration();
+  const client = new Client({
+    intents: [GatewayIntentBits.Guilds],
+  });
+
+  client.on("ready", (client) => registerApplicationCommands(client));
+  // client.on("interactionCreate", (interaction) => )
+
+  await client.login(config.token);
 }
