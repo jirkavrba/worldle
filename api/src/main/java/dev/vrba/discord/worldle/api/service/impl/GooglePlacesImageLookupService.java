@@ -20,14 +20,11 @@ import java.util.stream.Collectors;
 @Service
 public class GooglePlacesImageLookupService implements ImageLookupService {
 
-    @NonNull
+    private static final Logger LOGGER = LoggerFactory.getLogger(GooglePlacesImageLookupService.class);
+
     private final String key;
 
-    @NonNull
     private final RestClient client = RestClient.create("https://maps.googleapis.com/maps/api/place");
-
-    @NonNull
-    private final Logger logger = LoggerFactory.getLogger(GooglePlacesImageLookupService.class);
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     private record GooglePlacesApiResponse(@NonNull @JsonProperty("candidates") List<GooglePlacesApiCandidate> candidates) {
@@ -44,18 +41,18 @@ public class GooglePlacesImageLookupService implements ImageLookupService {
     public GooglePlacesImageLookupService(
             final @NonNull @Value("${integration.google-maps.api-key}") String key
     ) {
-        this.key = key;
+        this.key = Objects.requireNonNull(key);
     }
 
     @NonNull
     @Override
     public Optional<byte[]> getChallengeImageByCity(@NonNull City city) {
-        logger.info("Fetching an image for {}", city.getDisplayName());
+        LOGGER.info("Fetching an image for {}", city.getDisplayName());
 
         try {
             return getRandomPhotoReferenceByCity(city).flatMap(this::getImageDataByPhotoReference);
         } catch (Exception exception) {
-            logger.error("There was an error while fetching the image.", exception);
+            LOGGER.error("There was an error while fetching the image.", exception);
             return Optional.empty();
         }
     }
