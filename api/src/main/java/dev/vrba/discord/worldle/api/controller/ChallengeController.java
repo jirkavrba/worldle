@@ -26,15 +26,15 @@ public class ChallengeController {
     private final ChallengeMapper mapper;
 
     public ChallengeController(
-            @NonNull ChallengeService service,
-            @NonNull ChallengeMapper mapper
+            final @NonNull ChallengeService service,
+            final @NonNull ChallengeMapper mapper
     ) {
         this.service = Objects.requireNonNull(service);
         this.mapper = Objects.requireNonNull(mapper);
     }
 
     @GetMapping("/date/{date}")
-    public ResponseEntity<?> getChallengeForDate(@NonNull @PathVariable("date") LocalDate date) {
+    public ResponseEntity<?> getChallengeForDate(final @NonNull @PathVariable("date") LocalDate date) {
         final Challenge challenge = service.findOrCreateChallengeByDate(date);
         final ChallengeDto response = mapper.challengeToChallengeDto(challenge);
 
@@ -42,7 +42,7 @@ public class ChallengeController {
     }
 
     @PostMapping("/date/{date}/regenerate")
-    public ResponseEntity<?> regenerateChallengeForDate(@NonNull @PathVariable("date") LocalDate date) {
+    public ResponseEntity<?> regenerateChallengeForDate(final @NonNull @PathVariable("date") LocalDate date) {
         // TODO: Implement this
         return ResponseEntity.accepted().build();
     }

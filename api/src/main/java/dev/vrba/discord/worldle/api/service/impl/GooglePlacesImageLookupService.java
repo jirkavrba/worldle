@@ -46,7 +46,7 @@ public class GooglePlacesImageLookupService implements ImageLookupService {
 
     @NonNull
     @Override
-    public Optional<byte[]> getChallengeImageByCity(@NonNull City city) {
+    public Optional<byte[]> getChallengeImageByCity(final @NonNull City city) {
         LOGGER.info("Fetching an image for {}", city.getDisplayName());
 
         try {
@@ -57,7 +57,8 @@ public class GooglePlacesImageLookupService implements ImageLookupService {
         }
     }
 
-    private Optional<String> getRandomPhotoReferenceByCity(@NonNull City city) {
+    @NonNull
+    private Optional<String> getRandomPhotoReferenceByCity(final @NonNull City city) {
         final GooglePlacesApiResponse response = client.get()
                 .uri(builder ->
                         builder
@@ -85,7 +86,8 @@ public class GooglePlacesImageLookupService implements ImageLookupService {
                 });
     }
 
-    private Optional<byte[]> getImageDataByPhotoReference(@NonNull String reference) {
+    @NonNull
+    private Optional<byte[]> getImageDataByPhotoReference(final @NonNull String reference) {
         final String redirect = client.get()
                 .uri(builder ->
                         builder

@@ -14,7 +14,6 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class RedisSubscribedChannelService implements SubscribedChannelService {
 
-    @NonNull
     private final SubscribedChannelRepository repository;
 
     @NonNull
@@ -24,14 +23,14 @@ public class RedisSubscribedChannelService implements SubscribedChannelService {
     }
 
     @Override
-    public void subscribe(@NonNull String channel) {
+    public void subscribe(final @NonNull String channel) {
         if (!repository.existsById(channel)) {
             repository.save(new SubscribedChannel(channel));
         }
     }
 
     @Override
-    public void unsubscribe(@NonNull String channel) {
+    public void unsubscribe(final @NonNull String channel) {
         repository.deleteById(channel);
     }
 }

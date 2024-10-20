@@ -157,6 +157,7 @@ public class GuessInteractionsModule implements DiscordBotModule {
         );
     }
 
+    @NonNull
     private Mono<Void> sendGuessToSubscribedChannels(
             final @NonNull Guess guess,
             final @NonNull ButtonInteractionEvent event
@@ -207,7 +208,6 @@ public class GuessInteractionsModule implements DiscordBotModule {
         return updatedGuess;
     }
 
-    @NonNull
     private void performCacheCleanup(final @NonNull LocalDate date) {
         cache.keySet()
                 .stream()
@@ -230,6 +230,7 @@ public class GuessInteractionsModule implements DiscordBotModule {
     }
 
 
+    @NonNull
     private EmbedCreateSpec challengeToAnswerEmbed(
             final @NonNull Challenge challenge,
             final @NonNull PartialGuess guess
@@ -243,6 +244,7 @@ public class GuessInteractionsModule implements DiscordBotModule {
                 .build();
     }
 
+    @NonNull
     private List<LayoutComponent> challengeToButtons(
             final @NonNull Challenge challenge,
             final @NonNull PartialGuess guess
@@ -266,6 +268,7 @@ public class GuessInteractionsModule implements DiscordBotModule {
                 .toList();
     }
 
+    @NonNull
     private String buildGuessBar(final int guessNumber) {
         return IntStream.rangeClosed(1, 16)
                 .mapToObj(it -> it == guessNumber ? Emojis.guessNumber(it) : Emojis.guessNumberDisabled(it))

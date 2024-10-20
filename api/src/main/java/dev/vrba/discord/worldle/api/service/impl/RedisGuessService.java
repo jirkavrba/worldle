@@ -16,34 +16,31 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RedisGuessService implements GuessService {
 
-    @NonNull
     private final Clock clock;
 
-    @NonNull
     private final RedisGuessRepository repository;
-
 
     @NonNull
     @Override
-    public Optional<Guess> findGuessForToday(@NonNull String user) {
+    public Optional<Guess> findGuessForToday(final @NonNull String user) {
         return findGuessForDate(LocalDate.now(clock), user);
     }
 
     @NonNull
     @Override
-    public Optional<Guess> findGuessForDate(@NonNull LocalDate challengeDate, @NonNull String user) {
+    public Optional<Guess> findGuessForDate(final @NonNull LocalDate challengeDate, final @NonNull String user) {
         return repository.findByChallengeDateAndUser(challengeDate, user);
     }
 
     @NonNull
     @Override
-    public Guess recordGuessForToday(@NonNull String user, int guessedCountriesCount) {
+    public Guess recordGuessForToday(final @NonNull String user, final int guessedCountriesCount) {
         return recordGuessForDate(LocalDate.now(clock), user, guessedCountriesCount);
     }
 
     @NonNull
     @Override
-    public Guess recordGuessForDate(@NonNull LocalDate challengeDate, @NonNull String user, int guessedCountriesCount) {
+    public Guess recordGuessForDate(final @NonNull LocalDate challengeDate, final @NonNull String user, final int guessedCountriesCount) {
         return repository.save(
                 new Guess(
                         UUID.randomUUID(),

@@ -9,17 +9,20 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class ResourceCountryService implements CountryService {
 
-    @NonNull
     private final Map<String, Country> countries;
 
-    @NonNull
     private final Map<Country, List<City>> cities;
 
     public ResourceCountryService(final @NonNull ResourceLoader loader) {
@@ -40,7 +43,7 @@ public class ResourceCountryService implements CountryService {
 
     @NonNull
     @Override
-    public Optional<City> getRandomCity(@NonNull Country country) {
+    public Optional<City> getRandomCity(final @NonNull Country country) {
         return Optional.of(cities.get(country))
                 .filter(collection -> !collection.isEmpty())
                 .map(collection -> collection.stream().toList())

@@ -23,7 +23,10 @@ public class DiscordBot implements ApplicationRunner {
 
     private final List<DiscordBotModule> modules;
 
-    public DiscordBot(@Value("${discord.bot.token}") String token, @NonNull List<DiscordBotModule> modules) {
+    public DiscordBot(
+            final @Value("${discord.bot.token}") String token,
+            final @NonNull List<DiscordBotModule> modules
+    ) {
         this.token = Objects.requireNonNull(token);
         this.modules = Objects.requireNonNull(modules);
     }

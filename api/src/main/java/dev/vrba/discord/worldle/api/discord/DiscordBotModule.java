@@ -6,5 +6,5 @@ import reactor.core.publisher.Mono;
 
 public interface DiscordBotModule {
     @NonNull
-    Mono<Void> register(@NonNull GatewayDiscordClient client);
+    Mono<Void> register(final @NonNull GatewayDiscordClient client);
 }

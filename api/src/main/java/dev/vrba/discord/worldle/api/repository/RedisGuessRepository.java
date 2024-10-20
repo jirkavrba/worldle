@@ -13,6 +13,6 @@ import java.util.UUID;
 public interface RedisGuessRepository extends CrudRepository<Guess, UUID> {
 
     @NonNull
-    Optional<Guess> findByChallengeDateAndUser(@NonNull LocalDate challengeDate, @NonNull String user);
+    Optional<Guess> findByChallengeDateAndUser(final @NonNull LocalDate challengeDate, final @NonNull String user);
 }
 

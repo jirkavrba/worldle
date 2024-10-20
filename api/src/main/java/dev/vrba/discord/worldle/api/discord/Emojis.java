@@ -1,6 +1,7 @@
 package dev.vrba.discord.worldle.api.discord;
 
 import discord4j.core.object.reaction.ReactionEmoji;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 
@@ -72,7 +73,8 @@ public class Emojis {
 
     private static final ReactionEmoji GUESS_16 = ReactionEmoji.Custom.of(1297513487177875457L, "guess_16", false);
 
-    public static ReactionEmoji.Custom guessNumber(int number) {
+    @NonNull
+    public static ReactionEmoji.Custom guessNumber(final int number) {
         if (number < 1 || number > 16) {
             throw new IllegalArgumentException("Guess number must be between 1 and 16");
         }
@@ -88,7 +90,8 @@ public class Emojis {
                 .orElseThrow();
     }
 
-    public static ReactionEmoji.Custom guessNumberDisabled(int number) {
+    @NonNull
+    public static ReactionEmoji.Custom guessNumberDisabled(final int number) {
         if (number < 1 || number > 16) {
             throw new IllegalArgumentException("Guess number must be between 1 and 16");
         }

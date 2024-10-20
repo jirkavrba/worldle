@@ -13,5 +13,5 @@ import java.util.UUID;
 public interface RedisChallengeRepository extends CrudRepository<Challenge, UUID> {
 
     @NonNull
-    Optional<Challenge> findByDate(@NonNull LocalDate date);
+    Optional<Challenge> findByDate(final @NonNull LocalDate date);
 }

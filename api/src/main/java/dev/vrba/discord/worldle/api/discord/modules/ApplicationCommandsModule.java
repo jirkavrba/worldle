@@ -29,20 +29,20 @@ public class ApplicationCommandsModule implements DiscordBotModule {
 
     private final SubscribedChannelService service;
 
-    public ApplicationCommandsModule(@NonNull SubscribedChannelService service) {
+    public ApplicationCommandsModule(final @NonNull SubscribedChannelService service) {
         this.service = Objects.requireNonNull(service);
     }
 
     @NonNull
     @Override
-    public Mono<Void> register(@NonNull GatewayDiscordClient client) {
+    public Mono<Void> register(final @NonNull GatewayDiscordClient client) {
         Objects.requireNonNull(client);
 
         return registerSlashCommands(client).then(registerSlashCommandHandlers(client));
     }
 
     @NonNull
-    private Mono<Void> registerSlashCommands(@NonNull GatewayDiscordClient client) {
+    private Mono<Void> registerSlashCommands(final @NonNull GatewayDiscordClient client) {
         LOGGER.info("Registering application slash commands");
 
         final RestClient rest = client.getRestClient();
@@ -55,7 +55,7 @@ public class ApplicationCommandsModule implements DiscordBotModule {
     }
 
     @NonNull
-    private Mono<Void> registerSlashCommandHandlers(@NonNull GatewayDiscordClient client) {
+    private Mono<Void> registerSlashCommandHandlers(final @NonNull GatewayDiscordClient client) {
         LOGGER.info("Registering application command handlers");
 
         return client.on(ChatInputInteractionEvent.class).flatMap(event -> switch (event.getCommandName()) {
@@ -94,7 +94,7 @@ public class ApplicationCommandsModule implements DiscordBotModule {
     }
 
     @NonNull
-    private Mono<Void> handleUnsubscribeCommand(final ChatInputInteractionEvent event) {
+    private Mono<Void> handleUnsubscribeCommand(final @NonNull ChatInputInteractionEvent event) {
         LOGGER.info("Unsubscribing channel [{}] from daily challenges.", event.getInteraction().getChannelId());
 
         service.unsubscribe(event.getInteraction().getChannelId().asString());

@@ -19,15 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UploadcareImageStorageService implements ImageStorageService {
 
-    @NonNull
     private final Client client;
 
-    @NonNull
     private final Logger logger = LoggerFactory.getLogger(UploadcareImageStorageService.class);
 
     @NonNull
     @Override
-    public Optional<String> uploadChallengeImage(@NonNull byte[] imageData, @NonNull LocalDate challengeDate) {
+    public Optional<String> uploadChallengeImage(final @NonNull byte[] imageData, final @NonNull LocalDate challengeDate) {
         final String filename = challengeDate.format(DateTimeFormatter.BASIC_ISO_DATE) + ".png";
         final Uploader uploader = new FileUploader(client, imageData, filename);
 

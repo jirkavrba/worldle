@@ -32,19 +32,14 @@ import java.util.Objects;
 @Component
 public class DailyChallengesModule implements DiscordBotModule {
 
-    @NonNull
     private static final Logger LOGGER = LoggerFactory.getLogger(DailyChallengesModule.class);
 
-    @NonNull
     private final Clock clock;
 
-    @NonNull
     private final TaskScheduler scheduler;
 
-    @NonNull
     private final ChallengeService challengeService;
 
-    @NonNull
     private final SubscribedChannelService channelService;
 
     public DailyChallengesModule(

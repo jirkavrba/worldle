@@ -17,7 +17,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityWebFilterChain filterChain(final @NonNull ServerHttpSecurity http) throws Exception {
+    public SecurityWebFilterChain filterChain(final @NonNull ServerHttpSecurity http) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
