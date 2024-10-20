@@ -14,7 +14,7 @@ public class SchedulerConfiguration {
     @Bean
     @Primary
     public TaskScheduler taskScheduler() {
-        return new ConcurrentTaskScheduler(Executors.newScheduledThreadPool(7));
+        return new ConcurrentTaskScheduler(Executors.newScheduledThreadPool(2));
     }
 
 }

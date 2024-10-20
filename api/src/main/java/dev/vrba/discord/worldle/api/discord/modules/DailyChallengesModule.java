@@ -26,6 +26,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
@@ -64,8 +65,8 @@ public class DailyChallengesModule implements DiscordBotModule {
         final Duration period = Duration.ofDays(1);
         final Instant start = LocalDate.now(clock)
                 .atStartOfDay()
-                .plusHours(21)
-                .toInstant(ZoneOffset.UTC);
+                .plusHours(22)
+                .toInstant(ZoneOffset.from(OffsetDateTime.now(clock)));
 
         final Runnable task = () -> {
             final Challenge challenge = challengeService.findOrCreateChallengeForToday();
