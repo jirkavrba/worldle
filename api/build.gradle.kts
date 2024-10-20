@@ -4,7 +4,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
-    id("org.graalvm.buildtools.native") version "0.10.3"
+//    id("org.graalvm.buildtools.native") version "0.10.3"
 }
 
 group = "dev.vrba.discord"
@@ -60,7 +60,7 @@ tasks.withType<BootBuildImage> {
     }
 
     imageName = "ghcr.io/jirkavrba/worldle/api"
-    environment.put("BP_NATIVE_IMAGE", "true")
+//    environment.put("BP_NATIVE_IMAGE", "true")
 }
 
 tasks.withType<Test> {
