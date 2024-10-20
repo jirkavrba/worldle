@@ -24,8 +24,8 @@ public class SecurityConfiguration {
                 .logout(ServerHttpSecurity.LogoutSpec::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeExchange(exchange ->
-                        exchange.pathMatchers("OPTIONS /**").permitAll()
-                                .pathMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        exchange.pathMatchers("GET /api/v1/admin/**").hasRole("ADMIN")
+                                .pathMatchers("POST /api/v1/admin/**").hasRole("ADMIN")
                                 .anyExchange().permitAll()
                 )
                 .build();
