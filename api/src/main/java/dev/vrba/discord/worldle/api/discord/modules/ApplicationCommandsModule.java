@@ -88,7 +88,7 @@ public class ApplicationCommandsModule implements DiscordBotModule {
     private Mono<Void> handleSubscribeCommand(final ChatInputInteractionEvent event) {
         LOGGER.info("Subscribing channel [{}] to daily challenges.", event.getInteraction().getChannelId());
 
-        service.subscribe(event.getInteraction().getChannelId().toString());
+        service.subscribe(event.getInteraction().getChannelId().asString());
 
         return event.reply(
                 InteractionApplicationCommandCallbackSpec.builder()
@@ -114,7 +114,7 @@ public class ApplicationCommandsModule implements DiscordBotModule {
     private Mono<Void> handleUnsubscribeCommand(final ChatInputInteractionEvent event) {
         LOGGER.info("Unsubscribing channel [{}] from daily challenges.", event.getInteraction().getChannelId());
 
-        service.unsubscribe(event.getInteraction().getChannelId().toString());
+        service.unsubscribe(event.getInteraction().getChannelId().asString());
 
         return event.reply(
                 InteractionApplicationCommandCallbackSpec.builder()
