@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -39,6 +40,16 @@ public class RedisChallengeService implements ChallengeService {
     @Override
     public Challenge createChallengeForToday() {
         return createChallenge(LocalDate.now());
+    }
+
+    @NonNull
+    @Override
+    public Challenge regenerateChallenge(final @NonNull LocalDate date) {
+        Objects.requireNonNull(date);
+
+        repository.deleteChallengeByDate(date);
+
+        return createChallenge(date);
     }
 
     @NonNull

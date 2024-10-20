@@ -15,6 +15,9 @@ public interface ChallengeService {
     Challenge createChallengeForToday();
 
     @NonNull
+    Challenge regenerateChallenge(@NonNull LocalDate date);
+
+    @NonNull
     Optional<Challenge> findChallengeByDate(@NonNull LocalDate date);
 
     @NonNull

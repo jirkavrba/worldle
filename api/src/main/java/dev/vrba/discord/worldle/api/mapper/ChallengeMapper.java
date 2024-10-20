@@ -6,12 +6,9 @@ import dev.vrba.discord.worldle.api.model.Challenge;
 import dev.vrba.discord.worldle.api.model.ChallengeOption;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface ChallengeMapper {
-
-    ChallengeMapper INSTANCE = Mappers.getMapper(ChallengeMapper.class);
 
     @Mapping(source = "city.name", target = "cityName")
     @Mapping(source = "city.country.name", target = "cityCountryName")

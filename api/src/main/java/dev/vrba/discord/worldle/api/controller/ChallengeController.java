@@ -34,7 +34,7 @@ public class ChallengeController {
     }
 
     @GetMapping("/date/{date}")
-    public ResponseEntity<?> getChallengeForDate(final @NonNull @PathVariable("date") LocalDate date) {
+    public ResponseEntity<ChallengeDto> getChallengeForDate(final @NonNull @PathVariable("date") LocalDate date) {
         final Challenge challenge = service.findOrCreateChallengeByDate(date);
         final ChallengeDto response = mapper.challengeToChallengeDto(challenge);
 
@@ -42,8 +42,10 @@ public class ChallengeController {
     }
 
     @PostMapping("/date/{date}/regenerate")
-    public ResponseEntity<?> regenerateChallengeForDate(final @NonNull @PathVariable("date") LocalDate date) {
-        // TODO: Implement this
-        return ResponseEntity.accepted().build();
+    public ResponseEntity<ChallengeDto> regenerateChallengeForDate(final @NonNull @PathVariable("date") LocalDate date) {
+        final Challenge challenge = service.regenerateChallenge(date);
+        final ChallengeDto response = mapper.challengeToChallengeDto(challenge);
+
+        return ResponseEntity.ok(response);
     }
 }

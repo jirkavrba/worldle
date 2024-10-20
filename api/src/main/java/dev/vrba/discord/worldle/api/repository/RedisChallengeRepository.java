@@ -14,4 +14,7 @@ public interface RedisChallengeRepository extends CrudRepository<Challenge, UUID
 
     @NonNull
     Optional<Challenge> findByDate(final @NonNull LocalDate date);
+
+    void deleteChallengeByDate(final @NonNull LocalDate date);
+
 }
