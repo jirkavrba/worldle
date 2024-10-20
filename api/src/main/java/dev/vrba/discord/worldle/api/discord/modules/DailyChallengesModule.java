@@ -69,12 +69,13 @@ public class DailyChallengesModule implements DiscordBotModule {
 
         final Runnable task = () -> {
             final Challenge challenge = challengeService.findOrCreateChallengeForToday();
+            final Challenge challengeForYesterday = challengeService.findOrCreateChallengeByDate(challenge.date().minusDays(1));
 
             LOGGER.info("Sending the daily challenge to subscribed channels.");
 
             channelService.getSubscribedChannels()
                     .stream()
-                    .map(channel -> sendDailyChallenge(client, challenge, channel))
+                    .map(channel -> sendDailyChallenge(client, challenge, challengeForYesterday, channel))
                     .forEach(Mono::subscribe);
         };
 
@@ -87,13 +88,14 @@ public class DailyChallengesModule implements DiscordBotModule {
     private Mono<Void> sendDailyChallenge(
             final @NonNull GatewayDiscordClient client,
             final @NonNull Challenge challenge,
+            final @NonNull Challenge challengeForYesterday,
             final @NonNull SubscribedChannel channel
     ) {
         return client.getChannelById(Snowflake.of(channel.id()))
                 .filter(it -> it instanceof TextChannel)
                 .cast(TextChannel.class)
                 .flatMap(textChannel -> {
-                    final EmbedCreateSpec embed = challengeToEmbed(challenge);
+                    final EmbedCreateSpec embed = challengeToEmbed(challenge, challengeForYesterday);
                     final LayoutComponent button = ActionRow.of(
                             Button.secondary("guess", Emojis.WORLDLE_LOGO, "Take a guess")
                     );
@@ -109,13 +111,13 @@ public class DailyChallengesModule implements DiscordBotModule {
     }
 
     @NonNull
-    private EmbedCreateSpec challengeToEmbed(final @NonNull Challenge challenge) {
+    private EmbedCreateSpec challengeToEmbed(final @NonNull Challenge challenge, final @NonNull Challenge challengeForYesterday) {
         return EmbedCreateSpec.builder()
                 .color(Colors.WORLDLE)
                 .title("Daily Worldle challenge")
                 .description("Can you guess from which country is the photo below?")
+                .addField("Yesterday the answer was", challengeForYesterday.city().getDisplayName(), false)
                 .image(challenge.imageUrl())
-                .footer("Good luck", null)
                 .build();
     }
 }

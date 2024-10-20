@@ -6,6 +6,6 @@ public record City(@NonNull String name, @NonNull Country country) {
 
     @NonNull
     public String getDisplayName() {
-        return String.format("%s, %s", name, country.name());
+        return String.format("%s %s, %s", country.flag(), name, country.name());
     }
 }
