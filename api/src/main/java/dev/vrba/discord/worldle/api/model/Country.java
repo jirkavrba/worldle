@@ -7,4 +7,7 @@ public record Country(
     @NonNull String code,
     @NonNull String flag
 ) {
+    public String asString() {
+        return flag + " " + name;
+    }
 }

@@ -1,5 +1,6 @@
 package dev.vrba.discord.worldle.api.discord.modules;
 
+import dev.vrba.discord.worldle.api.discord.Colors;
 import dev.vrba.discord.worldle.api.discord.DiscordBotModule;
 import dev.vrba.discord.worldle.api.service.SubscribedChannelService;
 import discord4j.core.GatewayDiscordClient;
@@ -8,7 +9,6 @@ import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.InteractionApplicationCommandCallbackSpec;
 import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.rest.RestClient;
-import discord4j.rest.util.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
@@ -27,10 +27,9 @@ public class ApplicationCommandsModule implements DiscordBotModule {
 
     private final static String UNSUBSCRIBE_COMMAND = "unsubscribe";
 
-    @NonNull
     private final SubscribedChannelService service;
 
-    public ApplicationCommandsModule(SubscribedChannelService service) {
+    public ApplicationCommandsModule(@NonNull SubscribedChannelService service) {
         this.service = Objects.requireNonNull(service);
     }
 
@@ -39,8 +38,7 @@ public class ApplicationCommandsModule implements DiscordBotModule {
     public Mono<Void> register(@NonNull GatewayDiscordClient client) {
         Objects.requireNonNull(client);
 
-        return registerSlashCommands(client)
-                .then(registerSlashCommandHandlers(client));
+        return registerSlashCommands(client).then(registerSlashCommandHandlers(client));
     }
 
     @NonNull
@@ -48,44 +46,27 @@ public class ApplicationCommandsModule implements DiscordBotModule {
         LOGGER.info("Registering application slash commands");
 
         final RestClient rest = client.getRestClient();
-        final List<ApplicationCommandRequest> requests = List.of(
-                ApplicationCommandRequest.builder()
-                        .name(SUBSCRIBE_COMMAND)
-                        .description("Subscribes the channel to daily Worldle challenges")
-                        .dmPermission(false)
-                        .build(),
-                ApplicationCommandRequest.builder()
-                        .name(UNSUBSCRIBE_COMMAND)
-                        .description("Unsubscribes the channel from daily Worldle challenges")
-                        .dmPermission(false)
-                        .build()
-        );
+        final List<ApplicationCommandRequest> requests = List.of(ApplicationCommandRequest.builder().name(SUBSCRIBE_COMMAND).description("Subscribes the channel to daily Worldle challenges").dmPermission(false).build(), ApplicationCommandRequest.builder().name(UNSUBSCRIBE_COMMAND).description("Unsubscribes the channel from daily Worldle challenges").dmPermission(false).build());
 
-        return rest.getApplicationId()
-                .flatMapMany(id -> rest.getApplicationService().bulkOverwriteGlobalApplicationCommand(id, requests))
-                .map(it -> {
-                    LOGGER.info("Registered the [/{}] command under id {}", it.name(), it.id());
-                    return it;
-                })
-                .then();
+        return rest.getApplicationId().flatMapMany(id -> rest.getApplicationService().bulkOverwriteGlobalApplicationCommand(id, requests)).map(it -> {
+            LOGGER.info("Registered the [/{}] command under id {}", it.name(), it.id());
+            return it;
+        }).then();
     }
 
     @NonNull
     private Mono<Void> registerSlashCommandHandlers(@NonNull GatewayDiscordClient client) {
         LOGGER.info("Registering application command handlers");
 
-        return client.on(ChatInputInteractionEvent.class)
-                .flatMap(event ->
-                        switch (event.getCommandName()) {
-                            case SUBSCRIBE_COMMAND -> handleSubscribeCommand(event);
-                            case UNSUBSCRIBE_COMMAND -> handleUnsubscribeCommand(event);
-                            default -> Mono.empty();
-                        }
-                )
-                .then();
+        return client.on(ChatInputInteractionEvent.class).flatMap(event -> switch (event.getCommandName()) {
+            case SUBSCRIBE_COMMAND -> handleSubscribeCommand(event);
+            case UNSUBSCRIBE_COMMAND -> handleUnsubscribeCommand(event);
+            default -> Mono.empty();
+        }).then();
     }
 
-    private Mono<Void> handleSubscribeCommand(final ChatInputInteractionEvent event) {
+    @NonNull
+    private Mono<Void> handleSubscribeCommand(final @NonNull ChatInputInteractionEvent event) {
         LOGGER.info("Subscribing channel [{}] to daily challenges.", event.getInteraction().getChannelId());
 
         service.subscribe(event.getInteraction().getChannelId().asString());
@@ -94,7 +75,7 @@ public class ApplicationCommandsModule implements DiscordBotModule {
                 InteractionApplicationCommandCallbackSpec.builder()
                         .addEmbed(
                                 EmbedCreateSpec.builder()
-                                        .color(Color.of(0x57F287))
+                                        .color(Colors.DISCORD_GREEN)
                                         .title("Channel subscribed")
                                         .description(
                                                 """
@@ -104,13 +85,15 @@ public class ApplicationCommandsModule implements DiscordBotModule {
                                                         To unsubscribe, use the `/unsubscribe` command.
                                                         
                                                         Thank you for playing.
-                                                        """)
+                                                        """
+                                        )
                                         .build()
                         )
                         .build()
         );
     }
 
+    @NonNull
     private Mono<Void> handleUnsubscribeCommand(final ChatInputInteractionEvent event) {
         LOGGER.info("Unsubscribing channel [{}] from daily challenges.", event.getInteraction().getChannelId());
 
@@ -120,14 +103,15 @@ public class ApplicationCommandsModule implements DiscordBotModule {
                 InteractionApplicationCommandCallbackSpec.builder()
                         .addEmbed(
                                 EmbedCreateSpec.builder()
-                                        .color(Color.of(0xED4245))
+                                        .color(Colors.DISCORD_RED)
                                         .title("Channel unsubscribed")
                                         .description(
                                                 """
                                                         This channel will no longer receive the daily Worldle challenges.
                                                         
                                                         You can always subscribe back by using the `/subscribe` command.
-                                                        """)
+                                                        """
+                                        )
                                         .build()
                         )
                         .build()

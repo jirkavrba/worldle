@@ -1,5 +1,6 @@
 package dev.vrba.discord.worldle.api.discord.modules;
 
+import dev.vrba.discord.worldle.api.discord.Colors;
 import dev.vrba.discord.worldle.api.discord.DiscordBotModule;
 import dev.vrba.discord.worldle.api.discord.Emojis;
 import dev.vrba.discord.worldle.api.model.Challenge;
@@ -14,7 +15,6 @@ import discord4j.core.object.component.LayoutComponent;
 import discord4j.core.object.entity.channel.TextChannel;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
-import discord4j.rest.util.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
@@ -116,7 +116,7 @@ public class DailyChallengesModule implements DiscordBotModule {
     @NonNull
     private EmbedCreateSpec challengeToEmbed(final @NonNull Challenge challenge) {
         return EmbedCreateSpec.builder()
-                .color(Color.of(0xFF2147))
+                .color(Colors.WORLDLE)
                 .title("Daily Worldle challenge")
                 .description("Can you guess from which country is the photo below?")
                 .image(challenge.imageUrl())
