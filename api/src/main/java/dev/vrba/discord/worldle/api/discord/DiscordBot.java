@@ -38,6 +38,6 @@ public class DiscordBot implements ApplicationRunner {
         Mono.when(moduleRegistrations)
                 .then(gateway.onDisconnect())
                 .doOnError(error -> LOGGER.error("Encountered an error while running the discord bot.", error))
-                .block();
+                .subscribe();
     }
 }
