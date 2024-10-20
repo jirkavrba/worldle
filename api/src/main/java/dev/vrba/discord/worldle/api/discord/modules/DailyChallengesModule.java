@@ -62,9 +62,9 @@ public class DailyChallengesModule implements DiscordBotModule {
         LOGGER.info("Scheduling a recurring task for sending out daily challenges.");
 
         final Duration period = Duration.ofDays(1);
-        final Instant midnight = LocalDate.now(clock).atStartOfDay()
-                .plusDays(1)
-                .plusMinutes(1)
+        final Instant start = LocalDate.now(clock)
+                .atStartOfDay()
+                .plusHours(21)
                 .toInstant(ZoneOffset.UTC);
 
         final Runnable task = () -> {
@@ -79,7 +79,7 @@ public class DailyChallengesModule implements DiscordBotModule {
                     .forEach(Mono::subscribe);
         };
 
-        scheduler.scheduleAtFixedRate(task, midnight, period);
+        scheduler.scheduleAtFixedRate(task, start, period);
 
         return Mono.empty();
     }

@@ -80,7 +80,7 @@ public class ApplicationCommandsModule implements DiscordBotModule {
                                         .description(
                                                 """
                                                         This channel has been subscribed to daily worldle challenges.
-                                                        Challenges are usually posted at midnight CEST.
+                                                        Challenges are usually posted at 21:00 CEST.
                                                         
                                                         To unsubscribe, use the `/unsubscribe` command.
                                                         
