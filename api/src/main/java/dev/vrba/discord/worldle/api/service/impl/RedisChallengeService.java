@@ -47,7 +47,7 @@ public class RedisChallengeService implements ChallengeService {
     public Challenge regenerateChallenge(final @NonNull LocalDate date) {
         Objects.requireNonNull(date);
 
-        repository.deleteChallengeByDate(date);
+        findChallengeByDate(date).ifPresent(repository::delete);
 
         return createChallenge(date);
     }

@@ -46,23 +46,41 @@ public class ApplicationCommandsModule implements DiscordBotModule {
         LOGGER.info("Registering application slash commands");
 
         final RestClient rest = client.getRestClient();
-        final List<ApplicationCommandRequest> requests = List.of(ApplicationCommandRequest.builder().name(SUBSCRIBE_COMMAND).description("Subscribes the channel to daily Worldle challenges").dmPermission(false).build(), ApplicationCommandRequest.builder().name(UNSUBSCRIBE_COMMAND).description("Unsubscribes the channel from daily Worldle challenges").dmPermission(false).build());
+        final List<ApplicationCommandRequest> requests = List.of(
+                ApplicationCommandRequest.builder()
+                        .name(SUBSCRIBE_COMMAND)
+                        .description("Subscribes the channel to daily Worldle challenges")
+                        .dmPermission(false)
+                        .build(),
+                ApplicationCommandRequest.builder()
+                        .name(UNSUBSCRIBE_COMMAND)
+                        .description("Unsubscribes the channel from daily Worldle challenges")
+                        .dmPermission(false)
+                        .build()
+        );
 
-        return rest.getApplicationId().flatMapMany(id -> rest.getApplicationService().bulkOverwriteGlobalApplicationCommand(id, requests)).map(it -> {
-            LOGGER.info("Registered the [/{}] command under id {}", it.name(), it.id());
-            return it;
-        }).then();
+        return rest.getApplicationId()
+                .flatMapMany(id -> rest.getApplicationService().bulkOverwriteGlobalApplicationCommand(id, requests))
+                .map(it -> {
+                    LOGGER.info("Registered the [/{}] command under id {}", it.name(), it.id());
+                    return it;
+                })
+                .then();
     }
 
     @NonNull
     private Mono<Void> registerSlashCommandHandlers(final @NonNull GatewayDiscordClient client) {
         LOGGER.info("Registering application command handlers");
 
-        return client.on(ChatInputInteractionEvent.class).flatMap(event -> switch (event.getCommandName()) {
-            case SUBSCRIBE_COMMAND -> handleSubscribeCommand(event);
-            case UNSUBSCRIBE_COMMAND -> handleUnsubscribeCommand(event);
-            default -> Mono.empty();
-        }).then();
+        return client.on(ChatInputInteractionEvent.class)
+                .flatMap(event ->
+                        switch (event.getCommandName()) {
+                            case SUBSCRIBE_COMMAND -> handleSubscribeCommand(event);
+                            case UNSUBSCRIBE_COMMAND -> handleUnsubscribeCommand(event);
+                            default -> Mono.empty();
+                        }
+                )
+                .then();
     }
 
     @NonNull
@@ -80,7 +98,7 @@ public class ApplicationCommandsModule implements DiscordBotModule {
                                         .description(
                                                 """
                                                         This channel has been subscribed to daily worldle challenges.
-                                                        Challenges are usually posted at 22:00 CEST.
+                                                        Challenges are usually posted at midnight CEST.
                                                         
                                                         To unsubscribe, use the `/unsubscribe` command.
                                                         

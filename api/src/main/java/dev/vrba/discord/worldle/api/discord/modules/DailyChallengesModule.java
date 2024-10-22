@@ -65,7 +65,8 @@ public class DailyChallengesModule implements DiscordBotModule {
         final Duration period = Duration.ofDays(1);
         final Instant start = LocalDate.now(clock)
                 .atStartOfDay()
-                .plusHours(22)
+                .plusDays(1)
+                .plusMinutes(1)
                 .toInstant(ZoneOffset.from(OffsetDateTime.now(clock)));
 
         final Runnable task = () -> {
