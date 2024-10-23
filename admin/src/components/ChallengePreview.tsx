@@ -12,6 +12,7 @@ export const ChallengePreview: FC<ChallengePreviewProps> = ({date}) => {
     const {authentication} = useAuthenticationContext();
     const [loading, setLoading] = useState<boolean>(true);
     const [challenge, setChallenge] = useState<Challenge | null>(null);
+    const [revealed, setRevealed] = useState<boolean>(false);
 
     useEffect(() => {
         setLoading(true);
@@ -25,8 +26,9 @@ export const ChallengePreview: FC<ChallengePreviewProps> = ({date}) => {
     const handleRegenerate = () => {
         setLoading(true);
         regenerateChallenge(authentication!, date)
-            .then(result => {
-                setChallenge(result);
+            .then(() => loadChallenge(authentication!, date))
+            .then(response => {
+                setChallenge(response);
                 setLoading(false);
             });
     };
@@ -39,11 +41,15 @@ export const ChallengePreview: FC<ChallengePreviewProps> = ({date}) => {
                         ? (<Heading size="sm" color="primary" marginY={10} textAlign="center">Loading...</Heading>)
                         : (
                             <>
-                                <Heading size="md">
-                                    {challenge.answer_country_flag}
-                                    {challenge.answer_country_name}
+                                <Heading size="md" onClick={() => setRevealed(current => !current)} cursor="pointer">
+                                    {challenge.challenge_date} &mdash;
+                                    {revealed
+                                        ? <> {challenge.answer_country_flag} {challenge.answer_country_name}</>
+                                        : <> 🏁 *********</>
+                                    }
                                 </Heading>
-                                <Image src={challenge.image_url} borderRadius="xl"/>
+
+                                <Image src={challenge.image_url} borderRadius="xl" height={200} marginTop={2}/>
 
                                 <Button marginTop={5} disabled={date === formatDate(new Date())} onClick={() => handleRegenerate()}>Regenerate challenge</Button>
                             </>
