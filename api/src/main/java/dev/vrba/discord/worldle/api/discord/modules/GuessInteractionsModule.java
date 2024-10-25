@@ -209,10 +209,12 @@ public class GuessInteractionsModule implements DiscordBotModule {
     }
 
     private void performCacheCleanup(final @NonNull LocalDate date) {
-        cache.keySet()
+        final List<LocalDate> obsoleteKeys = cache.keySet()
                 .stream()
                 .filter(key -> !key.isEqual(date))
-                .forEach(cache::remove);
+                .toList();
+
+        obsoleteKeys.forEach(cache::remove);
     }
 
     @NonNull
