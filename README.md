@@ -3,3 +3,5 @@
 # Worldle 
 
 A Discord bot that posts Geoguesser-like challenges daily.
+
+Special thanks to Juanma Hernández for providing the [cities dataset](https://www.kaggle.com/datasets/juanmah/world-cities) on Kaggle.
